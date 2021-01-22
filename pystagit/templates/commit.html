@@ -1,0 +1,24 @@
+{% include 'header.j2' %}
+<div class="commitmeta"><pre class="commit">
+<b>commit</b> <a href="../commit/{{ commit.id }}.html">{{ commit.id }}</a>
+{% if commit.parent_id %}<b>parent</b> <a href="../commit/{{ commit.parent_id }}.html">{{ commit.parent_id }}</a>{% endif %}
+<b>Author:</b> {{ commit.author }} &lt;<a href="mailto:{{ commit.email }}">{{ commit.email }}</a>&gt;
+<b>Date:</b>   {{ commit.full_date }}
+
+{{ commit.msg }}
+
+<b>Diffstat:</b>
+<table>
+    {% for delta in deltas %}<tr>
+        {% if delta.status %}<td class="{{ delta.status }}">{{ delta.status }}</td>{% else %}<td> </td>{% endif %}
+        <td><a href="#h{{ loop.index0 }}">{{ delta.old_file }}{% if not delta.old_file == delta.new_file %} -&gt; {{ delta.new_file }}{% endif %}</a></td>
+        <td> | </td>
+        <td class="num">{{ delta.total }}</td>
+        <td><span class="i">{{ delta.addstr }}</span><span class="d">{{ delta.delstr }}</span></td>
+    </tr>{% endfor %}
+</table></pre>
+<p>{{ commit.filecount }} files changed, {{ commit.addcount}} insertions(+), {{ commit.delcount }} deletions(-)</p>
+</div>
+<hr/>
+{% for delta in deltas %}{% set delta_loop = loop %}<pre class="delta"><b>diff --git a/<a id="h{{ delta_loop.index0 }}" href="../file/{{ delta.old_file }}.html">{{ delta.old_file }}</a> b/<a href="../file/{{ delta.new_file }}.html">{{ delta.new_file }}</a></b>
+{% for hunk in delta.hunks %}{% set hunk_loop = loop %}<a href="#h{{ delta_loop.index0 }}-{{ hunk_loop.index0 }}" id="h{{ delta_loop.index0 }}-{{ hunk_loop.index0 }}" class="h">{{ hunk.header }}</a>{% for line in hunk.lines %}{% if line.status %}<a href="#{{ delta_loop.index }}-{{ hunk_loop.index0 }}-{{ loop.index0 }}" id="{{ delta_loop.index }}-{{ hunk_loop.index0 }}-{{ loop.index0 }}" class="{{ line.status }}">{% endif %}{% if line.status == "i" %}+{% elif line.status == "d" %}-{% else %} {% endif %}{{ line.content }}{% if line.status %}</a>{% endif %}{% endfor %}{% endfor %}</pre>{% endfor %}

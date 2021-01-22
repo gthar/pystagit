@@ -1,0 +1,17 @@
+{% include 'header.j2' %}
+{% if rendered %}
+    <div id="about" class="article">
+        {{ rendered | safe }}
+    </div>
+{% endif %}
+<div class="blobmeta">
+<p>{{ file.name}} | {{ file.nlines }} lines | {{ file.size }} B | <a href="{% if rootpath %}{{ rootpath }}/{% endif %}raw/{{ file.full_name }}">Raw</a></p>
+{% if file.binary %}
+    <p>Binary file.</p>
+{% else %}
+    <div id="blob">
+        {{ content | safe }}
+    </div>
+{% endif %}
+</div>
+{% include 'footer.j2' %}

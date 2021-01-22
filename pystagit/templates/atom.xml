@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>{{ header.name }}, branch HEAD</title>
+<subtitle>{{ header.desc }}</subtitle>
+{% for commit in commits %}<entry>
+<id>{{ commit.id }}</id>
+<published>{{ commit.published_date }}</published>
+<updated>{{ commit.updated_date }}</updated>
+<title type="text">{{ commit.msg }}</title>
+<link rel="alternate" type="text/html" href="commit/{{ commit.id }}.html" />
+<author>
+    <name>{{ commit.author }}</name>
+    <email>{{ commit.email }}</email>
+</author>
+<content type="text">commit {{ commit.id }}{% if commit.parent_id %}
+parent {{ commit.parent_id }}{% endif %}
+Author: {{ commit.author }} &lt;{{ commit.email }}&gt;
+Date:   {{ commit.full_date }}
+
+{{ commit.msg }}
+
+</content>
+</entry>{% endfor %}
+</feed>

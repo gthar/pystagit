@@ -1,0 +1,11 @@
+{% include 'header.j2' %}
+{% if rendered %}
+<div id="about" class="article">
+{{ content | safe }}
+</div>
+{% else %}
+<pre id="about">
+{{ content }}
+</pre>
+{% endif %}
+{% include 'footer.j2' %}

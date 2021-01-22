@@ -1,0 +1,24 @@
+{% include 'header.j2' %}
+<table id="log">
+    <thead>
+        <tr>
+            <td><b>Date</b></td>
+            <td><b>Commit message</b></td>
+            <td><b>Author</b></td>
+            <td class="num" align="right"><b>Files</b></td>
+            <td class="num" align="right"><b>+</b></td>
+            <td class="num" align="right"><b>-</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for commit in commits %}<tr>
+            <td>{{ commit.date }}</td>
+            <td><a href="commit/{{ commit.id }}.html">{{ commit.msg }}</a></td>
+            <td>{{ commit.author }}</td>
+            <td class="num" align="right">{{ commit.filecount }}</td>
+            <td class="num" align="right">+{{ commit.addcount }}</td>
+            <td class="num" align="right">-{{ commit.delcount }}</td>
+        </tr>{% endfor %}
+    </tbody>
+</table>
+{% include 'footer.j2' %}
