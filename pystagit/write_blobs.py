@@ -107,13 +107,13 @@ def write_blob(blob, header_data, path, levels):
     except FileExistsError:
         pass
     
-    content = blob.data.decode()
-
     if blob.is_binary:
+        content = None
         highlighted = None
         rendered = None
         nlines = 0
     else:
+        content = blob.data.decode()
         nlines = len(content.strip().split("\n"))
 
         lexer = pick_lexer(blob.name, content)
@@ -159,8 +159,9 @@ def write_blob(blob, header_data, path, levels):
         file=data,
     )
 
-    with open(os.path.join("raw", path, blob.name), "w") as out_fh:
-        out_fh.write(content)
+    raw_path = os.path.join("raw", path, blob.name)
+    with open(raw_path, "wb") as out_fh:
+        out_fh.write(blob.data)
 
     return data
 
