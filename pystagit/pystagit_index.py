@@ -26,11 +26,16 @@ def repo_info(path):
         print(error, file=sys.stderr)
         sys.exit(1)
 
+    if repo.head_is_unborn:
+        date = "-"
+    else:
+        date = fmt_time(repo[repo.head.target].author.time)
+
     vals = {
         "name": get_name(abs_path),
         "desc": read_repo_info(abs_path, "description"),
         "owner": read_repo_info(abs_path, "owner"),
-        "date": fmt_time(repo[repo.head.target].author.time),
+        "date": date,
     }
     return {k: v for k, v in vals.items() if v is not None}
 
