@@ -161,17 +161,19 @@ def main():
 
     header_data = get_header_data(repo, abs_path)
 
-    commits_data = [
-        write_commits(commit, repo, header_data)
-        for commit in repo.walk(repo.head.target, pygit2.GIT_SORT_TIME)
-    ]
-    files_data = write_file_tree(repo[repo.head.target].tree, header_data)
+    if not repo.head_is_unborn:
+        head = repo.head.target
+        commits_data = [
+            write_commits(commit, repo, header_data)
+            for commit in repo.walk(head, pygit2.GIT_SORT_TIME)
+        ]
+        files_data = write_file_tree(repo[head].tree, header_data)
 
-    write_log(commits_data, header_data)
-    write_files(files_data, header_data)
-    write_refs(repo, header_data)
-    write_atom(commits_data, header_data)
-    write_tags(header_data)
+        write_log(commits_data, header_data)
+        write_files(files_data, header_data)
+        write_refs(repo, header_data)
+        write_atom(commits_data, header_data)
+        write_tags(header_data)
 
     if "readme" in header_data:
         write_about(repo, header_data)
