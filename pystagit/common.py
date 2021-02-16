@@ -74,10 +74,9 @@ def write_output(template, outfile, **kwargs):
     if isinstance(outfile, (str, bytes, os.PathLike)):
         with open(outfile, "w") as out_fh:
             out_fh.write(output)
+        os.chmod(outfile, 0o644)
     else:
         outfile.write(output)
-
-    os.chmod(outfile, 0o644)
 
 
 def mkdir(path):
