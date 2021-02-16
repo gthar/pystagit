@@ -77,7 +77,7 @@ def write_output(template, outfile, **kwargs):
     else:
         outfile.write(output)
 
-    os.chmod(output, 0o644)
+    os.chmod(outfile, 0o644)
 
 
 def mkdir(path):
