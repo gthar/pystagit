@@ -10,7 +10,7 @@ import pygit2
 import pygments
 from pygments import lexers, formatters
 
-from pystagit.common import write_output
+from pystagit.common import write_output, mkdir
 
 
 def pick_lexer(filename, contents):
@@ -97,16 +97,9 @@ def write_blob(blob, header_data, path, levels):
     if path is None:
         path = ""
 
-    try:
-        os.makedirs(os.path.join("file", path))
-    except FileExistsError:
-        pass
+    mkdir(os.path.join("file", path))
+    mkdir(os.path.join("raw", path))
 
-    try:
-        os.makedirs(os.path.join("raw", path))
-    except FileExistsError:
-        pass
-    
     if blob.is_binary:
         content = None
         highlighted = None

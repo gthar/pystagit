@@ -3,7 +3,7 @@
 
 import os
 
-from pystagit.common import fmt_time, write_output
+from pystagit.common import fmt_time, write_output, mkdir
 
 
 EMPTY_TREE_ID = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
@@ -71,10 +71,7 @@ def get_delta_stats(patch):
 def write_commits(commit, repo, header_data):
     """write commits in commit/x.html and return data for log.html"""
 
-    try:
-        os.makedirs("commit")
-    except FileExistsError:
-        pass
+    mkdir("commit")
 
     try:
         parent_id = commit.parent_ids[0]

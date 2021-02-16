@@ -76,3 +76,14 @@ def write_output(template, outfile, **kwargs):
             out_fh.write(output)
     else:
         outfile.write(output)
+
+    os.chmod(output, 0o644)
+
+
+def mkdir(path):
+    """make a directory with the right permissions"""
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
+    os.chmod(path, 0o755)
