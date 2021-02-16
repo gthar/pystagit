@@ -161,7 +161,11 @@ def main():
 
     header_data = get_header_data(repo, abs_path)
 
-    if not repo.head_is_unborn:
+    if repo.head_is_unborn:
+        commits_data = []
+        files_data = []
+
+    else:
         head = repo.head.target
         commits_data = [
             write_commits(commit, repo, header_data)
@@ -169,11 +173,11 @@ def main():
         ]
         files_data = write_file_tree(repo[head].tree, header_data)
 
-        write_log(commits_data, header_data)
-        write_files(files_data, header_data)
-        write_refs(repo, header_data)
-        write_atom(commits_data, header_data)
-        write_tags(header_data)
+    write_log(commits_data, header_data)
+    write_files(files_data, header_data)
+    write_refs(repo, header_data)
+    write_atom(commits_data, header_data)
+    write_tags(header_data)
 
     if "readme" in header_data:
         write_about(repo, header_data)
